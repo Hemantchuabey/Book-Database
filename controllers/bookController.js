@@ -57,3 +57,17 @@ export const updateBook = async (req, res, next) => {
   }
   return res.status(200).json({ book });
 };
+
+export const deleteBook = async (req, res, next) => {
+  let bookID = req.params.id;
+  let book;
+  try {
+    book = await bookModel.findByIdAndRemove(bookID);
+  } catch (err) {
+    return console.log(err);
+  }
+  if (!book) {
+    return res.status(500).json({ message: "Unable to Delete!!" });
+  }
+  return res.status(200).json({ book });
+};
