@@ -36,3 +36,24 @@ export const addBooks = async (req, res, next) => {
   }
   return res.status(201).json({ book });
 };
+
+export const updateBook = async (req, res, next) => {
+  const { title, author, description } = req.body;
+  let bookID = req.params.id;
+  let book;
+  try {
+    book = await bookModel.findByIdAndUpdate(bookID, {
+      title,
+      author,
+      description,
+    });
+  } catch (err) {
+    return console.log(err);
+  }
+  if (!book) {
+    return res
+      .status(500)
+      .json({ message: "Unable to Update the Book List !!" });
+  }
+  return res.status(200).json({ book });
+};
